@@ -1,0 +1,24 @@
+<server>
+if %request.Get("fromformb2t")
+{
+  set bookObj = ##class(Simple.Book2Type).%New()
+  set ok = bookObj.%Save()
+  if ($$$ISOK(ok))
+  {
+   set respStr = "Ok, object saved"
+  }
+  else
+  {
+   set respStr = "Sorry, there was some issues"
+  }
+}
+</server>
+<html>
+<body>#($Get(respStr))#
+<form method="post"><input type="hidden" value="1" name="fromformb2t">
+<label>Book <input type="text" name="book"></label><br>
+<label>Type <input type="text" name="type"></label><br>
+<input type="submit" value="ОК">
+</form>
+</body>
+</html>

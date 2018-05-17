@@ -1,0 +1,39 @@
+<script language=Cache method=OnPreHTTP arguments="" returntype=%Boolean>
+	set binHash = ##class(%SYSTEM.Encryption).MD5Hash("porko-rosso")
+	set base64Hash = ##class(%SYSTEM.Encryption).Base64Encode(binHash)
+	Do %response.SetCookie("hash", base64Hash)
+	Quit $$$OK
+</script>
+
+<html>
+<head>
+	<script src="js/webix.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/jquery-3.3.1.min.js" language="javascript" type="text/javascript"></script>
+	<script src="js/form.js" language="javascript" type="text/javascript"></script>
+	<script src="js/formb2t.js" language="javascript" type="text/javascript"></script>
+	<script src="js/formowner.js" language="javascript" type="text/javascript"></script>
+	<script src="js/table.js" language="javascript" type="text/javascript"></script>
+	<script src="js/main.js" language="javascript" type="text/javascript"></script>
+	<script src="js/box.js" language="javascript" type="text/javascript"></script>
+	<link rel="stylesheet" type="text/css" href="css/main.css"/>
+	<link rel="stylesheet" href="css/webix.css" type="text/css" charset="utf-8">
+    
+</head>
+<body>
+<div class='message'>
+	<div class='error' id='err_div'></div>
+	<div class='okstr' id='ok_div'></div>
+</div>
+
+<div id='form_div'></div>
+<div id='formowner_div'></div>
+<div id='formb2t_div'></div>
+<br/>
+Owners
+<div id='main_table'></div>
+<br/>
+Library tree
+<div id='box'></div>
+
+</body>
+</html>

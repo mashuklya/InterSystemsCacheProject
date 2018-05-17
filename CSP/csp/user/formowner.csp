@@ -1,0 +1,24 @@
+<server>
+if %request.Get("fromformowner")
+{
+  set bookObj = ##class(Simple.Owner).%New()
+  set ok = bookObj.%Save()
+  if ($$$ISOK(ok))
+  {
+   set respStr = "Ok, object saved"
+  }
+  else
+  {
+   set respStr = "Sorry, there was some issues"
+  }
+}
+</server>
+<html>
+<body>#($Get(respStr))#
+<form method="post"><input type="hidden" value="1" name="fromformowner">
+<label>Book <input type="text" name="book"></label><br>
+<label>Name <input type="text" name="name"></label><br>
+<input type="submit" value="ОК">
+</form>
+</body>
+</html>

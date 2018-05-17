@@ -1,0 +1,34 @@
+BODY {margin: 20px; font-family: Arial}
+.message {height: 50px}
+.error{color: red;}
+.okstr{color: darkgreen;}
+
+
+#form_div{ 
+	float:left; 
+	margin:5px;
+	width:440;
+	height:220px;
+	}
+	
+#formb2t_div{ 
+	float:left; 
+	margin:5px;
+	width:440;
+	height:220px;
+	}
+
+#formowner_div{ 
+	float:right;
+	margin:5px;
+	width:440;
+	height:220px;
+	}
+	
+.webix_dtable{
+	height: 200px !important
+	}
+	
+.webix_tree{
+	height : auto !important
+	}

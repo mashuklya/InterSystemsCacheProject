@@ -1,0 +1,41 @@
+<server>
+
+ set binHash = ##class(%SYSTEM.Encryption).MD5Hash("porko-rosso")
+ set base64Hash = ##class(%SYSTEM.Encryption).Base64Encode(binHash)
+
+ set hash = %request.GetCookie("hash")
+ if (hash '= base64Hash)
+ {
+	 write {"ok": false}.%Set("error", "Security error, try to reload page").%ToJSON()
+	 quit
+ }
+ 
+ 
+	 set requestData = %request.Content.Read()	//читаем со страницы
+	 set dynObj = {}.%FromJSON(requestData)		//JSON строка -> динамический объект
+	 
+	 //создаём и заполняем класс
+	 set ownerObj = ##class(Simple.Owner).%New()
+	 
+	 if ('$isObject(ownerObj))
+	 {
+	 	write {"ok": false}.%Set("error", "Not ok").%ToJSON()
+	 	quit
+	 }
+	 
+ 	 do ownerObj.BookSetObjectId(dynObj.book)
+ 	 set ownerObj.Name = dynObj.name
+ 	 
+	 set ok = ownerObj.%Save()
+	 
+	 if $$$ISOK(ok)
+	 {
+		write {"ok": true}.%ToJSON()
+	 }
+	 else
+	 {
+		set Err = ##class(%SYSTEM.Status).GetErrorText(ok)
+		write {"ok": false}.%Set("error", Err).%ToJSON()
+	 }
+	 
+</server>

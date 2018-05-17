@@ -1,0 +1,25 @@
+<server>
+
+
+ //SELECT Name, Book->Name
+ //FROM Simple.Owner 
+ 
+ &sql(
+ declare C1 cursor for
+ select Name,  Book->Name
+ into :Name, :Book
+ from Simple.Owner)
+ 
+ set dynamicArray = []
+  &sql(OPEN C1)
+ &sql(FETCH C1)
+
+ While (SQLCODE = 0) {
+	 set item = {}.%Set("Name", Name).%Set("Book", Book) 
+     Do dynamicArray.%Push(item)
+    &sql(FETCH C1)
+ }
+ 
+ write dynamicArray.%ToJSON()
+ &sql(CLOSE C1)
+</server>

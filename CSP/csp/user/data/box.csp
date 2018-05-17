@@ -1,0 +1,62 @@
+<server>
+
+
+ //SELECT Name, Book->Name
+ //FROM Simple.Owner 
+ 
+ &sql(
+ declare C1 cursor for
+ select Type->Name,  Book->Name
+ into :Type, :Book
+ from Simple.Book2Type
+ order by Type)
+ 
+ set dynamicArrayOut = [] 
+ set dynamicArray = [] 
+ set dynamicArrayType = []
+  &sql(OPEN C1)
+ &sql(FETCH C1)
+ 
+ 
+ set type = {} 
+ set typet = {}
+ set empty = {}
+ 
+ 
+ While (SQLCODE = 0) {
+ 	set typet = Type
+ 	if (empty = typet) {
+ 		set item = {}.%Set("value", Book) 
+ 		Do dynamicArrayType.%Push(item)
+ 	}
+ 	else {
+ 		if '(empty) {
+ 		
+	 		set type = {}.%Set("value", empty).%Set("data", dynamicArrayType)
+	 		Do dynamicArray.%Push(type)	
+ 		
+ 		}
+ 		
+ 		set dynamicArrayType = []
+ 		set item = {}.%Set("value", Book)
+ 		Do dynamicArrayType.%Push(item) 	
+ 		set empty = Type
+ 	}
+
+ 
+    &sql(FETCH C1)
+ }
+ 
+//set item = {}.%Set("value", Book)
+//Do dynamicArrayType.%Push(item) 
+
+set type = {}.%Set("value", Type).%Set("data", dynamicArrayType)
+Do dynamicArray.%Push(type)	
+ 
+ 
+ set item = {}.%Set("id", "root").%Set("value", "Library").%Set("open", "true").%Set("data", dynamicArray)
+ Do dynamicArrayOut.%Push(item)	
+ 
+ write dynamicArrayOut.%ToJSON()
+ &sql(CLOSE C1)
+</server>
